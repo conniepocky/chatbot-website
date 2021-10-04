@@ -1,0 +1,22 @@
+{
+  "name": "ai-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/conniepocky/chatbot-website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conniepocky/chatbot-website/issues"
+  },
+  "homepage": "https://github.com/conniepocky/chatbot-website#readme",
+  "devDependencies": {
+    "electron": "^15.1.0"
+  }
+}
