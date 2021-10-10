@@ -5,7 +5,6 @@ var botMessage = ""
 var botName = "name"
 var talking = true
 var editedMessage = ""
-var username = "";
 var messagesSent = 0;
 
 var punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
@@ -24,7 +23,7 @@ function chatbotResponse() {
 
   //questions
 
-  botMessage = question(lastUserMessage, editedMessage, botMessage)
+  botMessage = question(lastUserMessage, editedMessage, botMessage, botName, messagesSent)
 }
 function newEntry() {
   if (document.getElementById("chatbox").value != "") {
