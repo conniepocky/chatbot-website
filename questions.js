@@ -1,13 +1,15 @@
 const greetings = ["hi","hey","hello", "good day", "ello", "hiya", "hello there", "ello there", "hii"]
+const compliments = ["you are very nice", "you have a great sense of humor"]
 let whatUserSaid = ""
 let nextMessageMustSay = ""
+var username = ""
 
 function question(lastUserMessage, editedMessage, botMessage, name, messagesSent) {
 
 	//local storage stuff
 	if (botMessage == "i don't understand, what should i respond to that with?") {
 		localStorage.setItem(whatUserSaid, editedMessage);
-		botMessage = "i see, i'll keep that in mind, thanks"
+		return "i see, i'll keep that in mind. thanks"
 	}
 
 	//determining bot reply
@@ -28,7 +30,21 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
 		botMessage = "hi! my name is " + name + " and i want to help you as much as possible and be the best robot friend you've ever had!"
 	    } else if (editedMessage == "what can you do") {
 		botMessage = "i can do quite a lot of things"
-            }
+	    } else if (editedMessage == "how many messages have i sent") {
+                botMessage = "you have sent " + messagesSent;
+            } else if (editedMessage == "who am i") {
+                botMessage = "you are " + username;
+	    } else if (editedMessage == "whens your birthday" || editedMessage == "when is your birthday") {
+		botMessage = "my birthday is the 6th september"
+	    } else if (editedMessage == "whats your favourite colour") {
+		botMessage = "green"
+	    } else if (editedMessage == "whats your favourite movie") {
+	    	botMessage = "ready player one"
+	    } else if (editedMessage == "how has your day been" || editedMessage == "good day") {
+		botMessage = "very good thank you, i had lots of fun"
+	    } else if (editedMessage == "can you give me a compliment" || editedMessage == "can you compliment me" || editedMessage == "what do you like about me") {
+		botMessage = "of course " + compliments[Math.floor(Math.random()*(compliments.length))];
+	    }
 	} else if (editedMessage.includes("give me")) { //giving stuff to user e.g random number
 	    if (editedMessage.includes("random number")) {
  	    	if (editedMessage.includes("between")) {
@@ -37,20 +53,23 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
 		   botMessage = String(Math.floor(Math.random() * 10));
 		}
 
-	    }
+	    } 
 	} else { //normal stuff
 		  if (greetings.includes(editedMessage)) {
 		      botMessage = greetings[Math.floor(Math.random()*(greetings.length))];
-		  } else if (editedMessage == "how many messages have i sent") {
-		      botMessage = "you have sent " + messagesSent;
-		  } else if (editedMessage == "who am i") {
-		      botMessage = "you are " + username;
 		  } else if (editedMessage == "olleh") {
 		      botMessage = "?sdrawkcab gniklat ew era yhw"
 		  } else if (editedMessage.includes("my name is")) {
 		      username = lastUserMessage.match(/my name is ([a-z]*)/g);
 		      username = RegExp.$1;
 		      botMessage = "hello " + username
+		  } else if (editedMessage =="bad") {
+		      if (nextMessageMustSay == "how are you reply") {
+			      botMessage = "oh no, why are you feeling bad?"
+		      	      nextMessageMustSay = "i'm so sorry that happend to you, but this isn't the end. tomorrow awaits, and i'm sure it'll be good"
+		      }
+		  } else if (editedMessage == "i cant sleep") {
+		      botMessage = "me neither, but rest is important. we should both sleep or else we'll be shattered tomorrow morning"
 		  } else if (editedMessage == "brilliant" || editedMessage == "amazing" || editedMessage == "im great" || editedMessage.includes("im good") || editedMessage == "i am good") {
 		      if (nextMessageMustSay == "how are you reply") {
 			  botMessage = "glad to hear your good, what has made you feel good?"
