@@ -1,4 +1,4 @@
-const greetings = ["hi", "hey", "hello", "good day", "ello", "hiya", "hello there", "ello there", "hii"]
+const greetings = ["hi", "hey", "hello", "ello", "hiya", "hello there", "ello there", "hii"]
 const compliments = ["you are very nice", "you have a great sense of humor"]
 let whatUserSaid = ""
 let nextMessageMustSay = ""
@@ -14,10 +14,7 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
 
   //determining bot reply
 
-  if (nextMessageMustSay != "") {
-    botMessage = nextMessageMustSay
-    nextMessageMustSay = ""
-  } else if (lastUserMessage.includes("?")) { //question
+  if (lastUserMessage.includes("?")) { //question
     if (editedMessage.includes("who are you") || editedMessage.includes("whats your name")) {
       botMessage = "my name is " + name;
     } else if (editedMessage.includes("how are you")) {
@@ -47,6 +44,9 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
       botMessage = "very good thank you, i had lots of fun"
     } else if (editedMessage == "can you give me a compliment" || editedMessage == "can you compliment me" || editedMessage == "what do you like about me") {
       botMessage = "of course " + compliments[Math.floor(Math.random() * (compliments.length))];
+    } else if (editedMessage == "can i vent" || editedMessage == "i need to vent") {
+      botMessage = "of course, what is bothering you?"
+      nextMessageMustSay = "i am so sorry that is happening to you"
     }
   } else if (editedMessage.includes("give me")) { //giving stuff to user e.g random number
     if (editedMessage.includes("random number")) {
@@ -57,6 +57,9 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
       }
 
     }
+  } else if (editedMessage == "yeah") { //questions and sentence starters if it starts getting dry
+    botMessage = "anyway, tell me about yourself. what kind of things do you like?"
+    nextMessageMustSay = "cool"
   } else { //normal stuff
     if (greetings.includes(editedMessage)) {
       botMessage = greetings[Math.floor(Math.random() * (greetings.length))];
@@ -66,10 +69,14 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
       username = lastUserMessage.match(/my name is ([a-z]*)/g);
       username = RegExp.$1;
       botMessage = "hello " + username
+    } else if (editedMessage == "its my birthday" || "today is my birthday") {
+      botMessage = "happy birthday to you! happy birthday to you!"
+    } else if (editedMessage.endsWith("and guess what")) {
+      botMessage = "what?"
     } else if (editedMessage == "bad") {
       if (nextMessageMustSay == "how are you reply") {
         botMessage = "oh no, why are you feeling bad?"
-        nextMessageMustSay = "i'm so sorry that happend to you, but this isn't the end. tomorrow awaits, and i'm sure it'll be good"
+        nextMessageMustSay = "i'm so sorry that happend to you"
       }
     } else if (editedMessage == "i cant sleep") {
       botMessage = "me neither, but rest is important. we should both sleep or else we'll be shattered tomorrow morning"
@@ -78,17 +85,18 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
         botMessage = "glad to hear your good, what has made you feel good?"
         nextMessageMustSay = "nice :) i'm very happy to hear you have had a good day"
       }
-    } else {
-      if (editedMessage == "thank you" || editedMessage == "thanks" || editedMessage == "thx") {
+    } else if (editedMessage == "thank you" || editedMessage == "thanks" || editedMessage == "thx") {
         botMessage = ":)"
-      } else {
+    } else if (nextMessageMustSay != "") {
+    	botMessage = nextMessageMustSay
+    	nextMessageMustSay = ""
+    } else {
         if (localStorage.getItem(editedMessage)) {
           botMessage = localStorage.getItem(editedMessage);
         } else {
           whatUserSaid = editedMessage
           botMessage = "i don't understand, what should i respond to that with?"
         }
-      }
     }
   }
 
