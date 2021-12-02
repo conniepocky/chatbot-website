@@ -18,5 +18,9 @@
   "homepage": "https://github.com/conniepocky/chatbot-website#readme",
   "devDependencies": {
     "electron": "^15.1.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "node-fetch": "^2.6.6"
   }
 }
