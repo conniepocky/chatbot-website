@@ -7,17 +7,18 @@ var signOn = new Array(
 	"greetings! how are you doing today?");
 
 var topicChanger = new Array(
-	"where are you from?",
-	"how old are you?",
+//	"where are you from?",
+//	"how old are you?",
 	"when is your birthday?",
 //	"what is your favourite colour?",
 //	"what is your favourite movie?",
-	"what is your favourite singer/band?",
+//	"what is your favourite singer/band?",
 //	"do you want to hear a quote?",
 //	"has anything interesting happened with you lately?",
 	"what kind of hobbies do you enjoy?",
-//	"what are you doing these days?",
-  	"what kind of music do you like listening to?");
+	"what are you doing these days?",
+//  	"what kind of music do you like listening to?"
+	);
 
 var messageHistory = []
 let whatUserSaid = ""
@@ -37,6 +38,23 @@ var userage = 0
   //}).catch(err => console.error(err));
 
 //}
+
+function interests(editedMessage, botMessage) {
+	if (botMessage == "what kind of hobbies do you enjoy?" || "what are you doing these days?") {
+		if (editedMessage.includes("gaming")) {
+			return "that is cool, what games do you like?"
+		} else if (editedMessage.includes("programming")) {
+			return "what sort of things have you been programming lately?"
+		} else if (editedMessage.includes("sports")) {
+			currentConvo = "no more convo"
+			return "thats super cool, i'd love to be good at sports, but i think it'd end up breaking me so i'll stick to being a chat bot"
+		} else if (editedMessage.includes("singing")) {
+			return "thats amazing! you must be really talented!"
+		} else {
+			return "i've never heard of that before, what does it involve?"
+		}
+	}
+}
 
 function goodDay(editedMessage) {
 	currentConvo = "no more convo"
@@ -138,6 +156,8 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
 	 return about(editedMessage, botMessage)
   } else if (currentConvo == "music") {
 	 return music(editedMessage, botMessage)
+  } else if (currentConvo == "interests") {
+	 return interests(editedMessage, botMessage)	
   }
 
   //determining bot reply
@@ -195,6 +215,8 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
 	    currentConvo = "about"
     } else if (botMessage.includes("singer") || (botMessage.includes("music"))) {
 	    currentConvo = "music"
+    } else if (botMessage.includes("hobbies")) {
+    	    currentConvo = "interests"
     }
   } else { //normal stuff
     if (greetings.includes(editedMessage)) { 
