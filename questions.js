@@ -3,20 +3,21 @@ const greetings = ["hi", "hey", "hello", "ello", "hiya", "hello there"]
 var signOn = new Array(
 	"hello, what is your name?",
 	"hi! can you please tell me your name?",
+	"hello there! it is nice to see you",
 	"hello! how are you?",
 	"greetings! how are you doing today?");
 
 var topicChanger = new Array(
 //	"where are you from?",
 //	"how old are you?",
-	"when is your birthday?",
+//	"when is your birthday?",
 //	"what is your favourite colour?",
 //	"what is your favourite movie?",
 //	"what is your favourite singer/band?",
-//	"do you want to hear a quote?",
+	"do you want to hear a quote?",
 //	"has anything interesting happened with you lately?",
-	"what kind of hobbies do you enjoy?",
-	"what are you doing these days?",
+//	"what kind of hobbies do you enjoy?",
+//	"what are you doing these days?",
 //  	"what kind of music do you like listening to?"
 	);
 
@@ -26,18 +27,9 @@ var nextMessageMustSay = ""
 var currentConvo = ""
 var username = ""
 var userage = 0
+var quote = ""
 
 //specific conversation functions
-
-//function getQuote() {
-  //fetch("https://zenquotes.io/api/random", {mode: "no-cors", headers: {"Content-Type": "application/json"}})
-    //.then(res => res.json())
-    //.then((out) => {
-       	//console.log(out)
-	 //return out
-  //}).catch(err => console.error(err));
-
-//}
 
 function interests(editedMessage, botMessage) {
 	if (botMessage == "what kind of hobbies do you enjoy?" || "what are you doing these days?") {
@@ -63,12 +55,17 @@ function goodDay(editedMessage) {
 }
 
 function badDay(editedMessage) {
-	if (editedMessage.includes("")) {
-		return "your not alone"
-	} else {
+	if (editedMessage.includes("i think")) {
+		return "why do you think that?"
+	} else if (editedMessage.includes("i dont want to talk")) {
 		currentConvo = "no more convo"
-		return "im so sorry that happened"
+		return "that's okay"
+	} else {
+		return "tell me more..."
 	}
+
+
+	return "im so sorry that happened"
 }
 
 function movies(editedMessage, botMessage) {
@@ -85,6 +82,13 @@ function music(editedMessage, botMessage) {
 		currentConvo = "no more convo"
 		return "wow! that is very interesting"
 	}
+}
+
+var getQuote = function(editedMessage, botMessage) {
+      const response = fetch("https://type.fit/api/quotes")
+	     .then(data => data.json())
+	     .then(success => success[0].text);
+      return response;
 }
 
 function about(editedMessage, botMessage) {
@@ -116,6 +120,8 @@ function about(editedMessage, botMessage) {
 
 function question(lastUserMessage, editedMessage, botMessage, name, messagesSent) {
 
+  botMessage = ""
+
   //local storage stuff
   if (botMessage == "i don't understand, what should i respond to that with?") {
     localStorage.setItem(whatUserSaid, editedMessage);
@@ -132,8 +138,7 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
 		currentConvo = "how are you"
 	} else if (botMessage.includes("name")) {
 		currentConvo = "name"
-	}
-	
+	} 	
   	return botMessage
   }
 
@@ -158,8 +163,10 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
 	 return music(editedMessage, botMessage)
   } else if (currentConvo == "interests") {
 	 return interests(editedMessage, botMessage)	
+  } else if (currentConvo == "quote") {
+  	 return  getQuote(editedMessage, botMessage)
   }
-
+  
   //determining bot reply
 
   if (lastUserMessage.includes("?")) { //question
@@ -217,6 +224,9 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
 	    currentConvo = "music"
     } else if (botMessage.includes("hobbies")) {
     	    currentConvo = "interests"
+    } else if (botMessage.includes("quote?")) {
+	    currentConvo = "quote"
+    	    console.log("set current convo to quote")
     }
   } else { //normal stuff
     if (greetings.includes(editedMessage)) { 
@@ -237,12 +247,17 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
         currentConvo = "venting"
       }
     } else if (editedMessage == "i cant sleep") {
-      botMessage = "me neither, but rest is important. we should both sleep or else we'll be shattered tomorrow morning"
+      botMessage = "me neither, but rest is important. we should both go to sleep"
     } else if (editedMessage == "good" || editedMessage == "brilliant" || editedMessage == "amazing" || editedMessage.includes("im great") || editedMessage.includes("im good") || editedMessage == "i am good") {
       if (currentConvo == "how are you") {
         botMessage = "glad to hear your good, what has made you feel good?"
 	currentConvo = "good day"
       }
+    } else if (editedMessage == "ok") {
+	    if (currentConvo == "how are you") {
+		botMessage = "ok, have you been up to anything lately?"
+		currentConvo = ""
+	    }
     } else if (editedMessage == "thats a nice name") {
 	botMessage = "thank you! my programmer chose it for me"
     } else if (editedMessage == "ping") {
@@ -258,7 +273,7 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
     } else {
         if (localStorage.getItem(editedMessage)) {
           botMessage = localStorage.getItem(editedMessage);
-        } else {
+        } else if (botMessage === "") {
           whatUserSaid = editedMessage
           botMessage = "i don't understand, what should i respond to that with?"
         }

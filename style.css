@@ -1,15 +1,16 @@
 body {
   font: 15px arial, sans-serif;
-  background-color: #216913;
+  background-color: #33E3FF;
   padding-top: 15px;
   padding-bottom: 15px;
 }
 
 #bodybox {
   margin: auto;
-  max-width: 550px;
+  width: 300px;
+  height: 500px;
   font: 15px arial, sans-serif;
-  background-color: white;
+  background-color: #14A8C0;
   border-style: solid;
   border-width: 1px;
   padding-top: 20px;
@@ -18,10 +19,76 @@ body {
   padding-left: 25px;
   box-shadow: 5px 5px 5px grey;
   border-radius: 15px;
+
+  display: none;
+
+  position: absolute;
+  right: 10;
 }
 
 #chatbox {
   font: 17px arial, sans-serif;
   height: 22px;
   width: 100%;
+}
+
+/* eye test */
+
+.eye1 {
+  	width: 100px;
+  	height: 100px;
+	border-radius: 50%;
+	background-color: white;
+
+ 	margin: 100px;	
+	position: absolute;
+  	left: 40%;
+  	margin-left: -100px;
+}
+
+.eye2 { 
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: white;
+       
+        margin: 100px;	
+        position: absolute;
+        left: 70%;
+        margin-left: -100px;
+}
+
+.mouth {
+	width: 200px;
+	height: 100px;
+	border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+	border: 10px solid #000;
+	border-bottom: 0;
+
+	transform: rotate(180deg) scaleX(-1);
+
+	position: fixed;
+  	top: 50%;
+  	left: 50%;
+  	margin-top: -50px;
+  	margin-left: -100px;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.navbar button {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  background-color: #14A8C0; 
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
 }

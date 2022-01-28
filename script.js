@@ -6,6 +6,7 @@ var botName = "name"
 var talking = true
 var editedMessage = ""
 var messagesSent = 0;
+var speechAllowed = true;
 
 var punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
 var regex = new RegExp('[' + punctuation + ']', 'g');
@@ -36,7 +37,17 @@ function newEntry() {
     messages.push(lastUserMessage);
 
     chatbotResponse();
-    messages.push("<b>" + botName + ":</b> " + botMessage);
+
+    if (typeof botMessage === 'string') {
+    	messages.push("<b>" + botName + ":</b> " + botMessage);
+    } else { //promise
+	 (async function(){ 
+                 var result = await getQuote(editedMessage, botMessage)
+         	 await messages.push("<b>" + botName + ":</b> " + result);   
+	 	 console.log(result)
+	 })()
+    }
+
 
     Speech(botMessage);
 
@@ -47,8 +58,25 @@ function newEntry() {
   }
 }
 
+function showChatLog() {
+  var x = document.getElementById("bodybox");
+  if (x.style.display == "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function toggleSpeech() {
+	if (speechAllowed == true) {
+		speechAllowed = false;
+	} else if (speechAllowed == false) {
+		speechAllowed = true;
+	}
+}
+
 function Speech(say) {
-  if ('speechSynthesis' in window && talking) {
+  if ('speechSynthesis' in window && speechAllowed) {
     var utterance = new SpeechSynthesisUtterance(say);
     speechSynthesis.speak(utterance);
   }

@@ -7,7 +7,8 @@
   
 </head>
 <body>
-  <div id='bodybox'>
+
+  <div id="bodybox">
     <p id="chatlog7" class="chatlog">&nbsp;</p>
     <p id="chatlog6" class="chatlog">&nbsp;</p>
     <p id="chatlog5" class="chatlog">&nbsp;</p>
@@ -15,11 +16,19 @@
     <p id="chatlog3" class="chatlog">&nbsp;</p>
     <p id="chatlog2" class="chatlog">&nbsp;</p>
     <p id="chatlog1" class="chatlog">&nbsp;</p>
-    <input type="text" name="chat" id="chatbox" placeholder="Type here to talk to the bot."  onkeypress="keyPress()">
-    
-    <br>
-    <h2>My A.I Chatbot</h2>  
   </div>
+
+  <div class="botface">
+	  <div class="eye1"></div>
+	  <div class="eye2"></div>
+	  <div class="mouth"></div>
+  </div>
+
+  <div class="navbar">
+  	<button onclick="showChatLog()">Show Chat Log</button>
+	<button onclick="toggleSpeech()">Toggle Voice</button>
+  	<input type="text" name="chat" id="chatbox" placeholder="Type here to talk to the bot."  onkeypress="keyPress()">
+ </div>
 
   <script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/464612/nlp_compromise.min.js'></script>
   <script src="questions.js"></script>
