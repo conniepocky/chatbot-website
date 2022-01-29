@@ -8,17 +8,17 @@ var signOn = new Array(
 	"greetings! how are you doing today?");
 
 var topicChanger = new Array(
-//	"where are you from?",
-//	"how old are you?",
-//	"when is your birthday?",
-//	"what is your favourite colour?",
-//	"what is your favourite movie?",
-//	"what is your favourite singer/band?",
+	"where are you from?",
+	"how old are you?",
+	"when is your birthday?",
+	"what is your favourite colour?",
+	"what is your favourite movie?",
+	"what is your favourite singer/band?",
 	"do you want to hear a quote?",
-//	"has anything interesting happened with you lately?",
-//	"what kind of hobbies do you enjoy?",
-//	"what are you doing these days?",
-//  	"what kind of music do you like listening to?"
+	"has anything interesting happened with you lately?",
+	"what kind of hobbies do you enjoy?",
+	"what are you doing these days?",
+  	"what kind of music do you like listening to?"
 	);
 
 var messageHistory = []
@@ -127,7 +127,7 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
     localStorage.setItem(whatUserSaid, editedMessage);
     return "i see, i'll keep that in mind. thanks"
   }
-
+apw
   //first message
 
   if (messageHistory.length == 0) {

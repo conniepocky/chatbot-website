@@ -41,11 +41,13 @@ function newEntry() {
     if (typeof botMessage === 'string') {
     	messages.push("<b>" + botName + ":</b> " + botMessage);
     } else { //promise
-	 (async function(){ 
-                 var result = await getQuote(editedMessage, botMessage)
-         	 await messages.push("<b>" + botName + ":</b> " + result);   
-	 	 console.log(result)
-	 })()
+        async function e() { 
+                      var result = await getQuote(editedMessage, botMessage)
+                      console.log(result)
+                      return String(result)
+        }
+
+        messages.push("<b>" + botName + ":</b> " + e());   
     }
 
 
