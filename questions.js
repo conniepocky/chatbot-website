@@ -8,18 +8,18 @@ var signOn = new Array(
 	"greetings! how are you doing today?");
 
 var topicChanger = new Array(
-	"where are you from?",
-	"how old are you?",
-	"when is your birthday?",
-	"what is your favourite colour?",
-	"what is your favourite movie?",
-	"what is your favourite singer/band?",
+	// "where are you from?",
+	// "how old are you?",
+	// "when is your birthday?",
+	// "what is your favourite colour?",
+	// "what is your favourite movie?",
+	// "what is your favourite singer/band?",
 	"do you want to hear a quote?",
-	"has anything interesting happened with you lately?",
-	"what kind of hobbies do you enjoy?",
-	"what are you doing these days?",
-  	"what kind of music do you like listening to?"
-	);
+	// "has anything interesting happened with you lately?",
+	// "what kind of hobbies do you enjoy?",
+	// "what are you doing these days?",
+  // "what kind of music do you like listening to?"
+);
 
 var messageHistory = []
 let whatUserSaid = ""
@@ -27,7 +27,6 @@ var nextMessageMustSay = ""
 var currentConvo = ""
 var username = ""
 var userage = 0
-var quote = ""
 
 //specific conversation functions
 
@@ -64,7 +63,6 @@ function badDay(editedMessage) {
 		return "tell me more..."
 	}
 
-
 	return "im so sorry that happened"
 }
 
@@ -82,13 +80,6 @@ function music(editedMessage, botMessage) {
 		currentConvo = "no more convo"
 		return "wow! that is very interesting"
 	}
-}
-
-var getQuote = function(editedMessage, botMessage) {
-      const response = fetch("https://type.fit/api/quotes")
-	     .then(data => data.json())
-	     .then(success => success[0].text);
-      return response;
 }
 
 function about(editedMessage, botMessage) {
@@ -127,7 +118,7 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
     localStorage.setItem(whatUserSaid, editedMessage);
     return "i see, i'll keep that in mind. thanks"
   }
-apw
+
   //first message
 
   if (messageHistory.length == 0) {
@@ -145,26 +136,27 @@ apw
   //specific conversations
 	
   if (currentConvo == "good day") {
-  	 return goodDay(editedMessage);
+  	return goodDay(editedMessage);
   } else if (currentConvo == "venting") {
 	 return badDay(editedMessage);
   } else if (currentConvo == "no more convo") {
 	 currentConvo = ""
   } else if (currentConvo == "name") {
-	 username = editedMessage.match(/im ([a-z]*)/g);
-         username = RegExp.$1;
-	 currentConvo = "no more convo"
+	   username = editedMessage.match(/im ([a-z]*)/g);
+     username = RegExp.$1;
+	   currentConvo = "no more convo"
   	 return "cool! my name is " + name
   } else if (currentConvo == "movies") {
-	 return movies(editedMessage, botMessage)
+	  return movies(editedMessage, botMessage)
   } else if (currentConvo == "about") {
-	 return about(editedMessage, botMessage)
+	  return about(editedMessage, botMessage)
   } else if (currentConvo == "music") {
-	 return music(editedMessage, botMessage)
+	  return music(editedMessage, botMessage)
   } else if (currentConvo == "interests") {
-	 return interests(editedMessage, botMessage)	
+	  return interests(editedMessage, botMessage)	
   } else if (currentConvo == "quote") {
-  	 return  getQuote(editedMessage, botMessage)
+    currentConvo = ""
+    return 1
   }
   
   //determining bot reply
@@ -213,6 +205,8 @@ apw
         botMessage = String(Math.floor(Math.random() * 10));
       }
 
+    } else if (editedMessage.includes("quote")) {
+      currentConvo = "quote"
     }
   } else if (editedMessage == "yeah" || editedMessage == "cool") { //questions and sentence starters if it starts getting dry
     botMessage = topicChanger[Math.floor(Math.random() * (topicChanger.length))]
@@ -223,10 +217,10 @@ apw
     } else if (botMessage.includes("singer") || (botMessage.includes("music"))) {
 	    currentConvo = "music"
     } else if (botMessage.includes("hobbies")) {
-    	    currentConvo = "interests"
+    	currentConvo = "interests"
     } else if (botMessage.includes("quote?")) {
 	    currentConvo = "quote"
-    	    console.log("set current convo to quote")
+    	console.log("set current convo to quote")
     }
   } else { //normal stuff
     if (greetings.includes(editedMessage)) { 
@@ -251,25 +245,25 @@ apw
     } else if (editedMessage == "good" || editedMessage == "brilliant" || editedMessage == "amazing" || editedMessage.includes("im great") || editedMessage.includes("im good") || editedMessage == "i am good") {
       if (currentConvo == "how are you") {
         botMessage = "glad to hear your good, what has made you feel good?"
-	currentConvo = "good day"
+	      currentConvo = "good day"
       }
     } else if (editedMessage == "ok") {
 	    if (currentConvo == "how are you") {
-		botMessage = "ok, have you been up to anything lately?"
-		currentConvo = ""
+		    botMessage = "ok, have you been up to anything lately?"
+		    currentConvo = ""
 	    }
     } else if (editedMessage == "thats a nice name") {
-	botMessage = "thank you! my programmer chose it for me"
+	      botMessage = "thank you! my programmer chose it for me"
     } else if (editedMessage == "ping") {
-	botMessage = "pong"
+	      botMessage = "pong"
     } else if (editedMessage == "your welcome") {
         botMessage = "its very nice to have a human help point me in the right direction"
     } else if (editedMessage == "thank you" || editedMessage == "thanks" || editedMessage == "thx") {
         botMessage = ":)"
     } else if (nextMessageMustSay != "") {
-    	botMessage = nextMessageMustSay
-    	nextMessageMustSay = ""
-	console.log("next message cleared")
+    	  botMessage = nextMessageMustSay
+    	  nextMessageMustSay = ""
+	      console.log("next message cleared")
     } else {
         if (localStorage.getItem(editedMessage)) {
           botMessage = localStorage.getItem(editedMessage);

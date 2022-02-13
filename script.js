@@ -11,6 +11,7 @@ var speechAllowed = true;
 var punctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
 var regex = new RegExp('[' + punctuation + ']', 'g');
 
+
 //chatbot stuff
 
 function chatbotResponse() {
@@ -41,15 +42,30 @@ function newEntry() {
     if (typeof botMessage === 'string') {
     	messages.push("<b>" + botName + ":</b> " + botMessage);
     } else { //promise
-        async function e() { 
-                      var result = await getQuote(editedMessage, botMessage)
-                      console.log(result)
-                      return String(result)
-        }
+      const getNewQuote = async () =>
+      {
+          var url = "https://type.fit/api/quotes";  
+          var author = ""  
+      
+          const response = await fetch(url);
+          console.log(typeof response);
+          const allQuotes = await response.json();
+          const indx = Math.floor(Math.random()*allQuotes.length);
+          const quote = allQuotes[indx].text;
+      
+          messages.push("<b>" + botName + ":</b> " + quote); 
 
-        messages.push("<b>" + botName + ":</b> " + e());   
+          for (var i = 1; i < 8; i++) {
+            if (messages[messages.length - i])
+              document.getElementById("chatlog" + i).innerHTML = messages[messages.length - i];
+          }
+      
+      }
+      getNewQuote()
+      // console.log(messages) 
+      // console.log(messages[messages.length - i])
+      // console.log(typeof messages[messages.length - i])
     }
-
 
     Speech(botMessage);
 
