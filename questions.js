@@ -13,12 +13,13 @@ var topicChanger = new Array(
 	// "when is your birthday?",
 	// "what is your favourite colour?",
 	// "what is your favourite movie?",
-	// "what is your favourite singer/band?",
-	"do you want to hear a quote?",
+	"what is your favourite singer/band?",
+	// "do you want to hear a quote?",
 	// "has anything interesting happened with you lately?",
 	// "what kind of hobbies do you enjoy?",
 	// "what are you doing these days?",
-  // "what kind of music do you like listening to?"
+  "what kind of music do you like listening to?"
+
 );
 
 var messageHistory = []
@@ -74,12 +75,22 @@ function movies(editedMessage, botMessage) {
 }
 
 function music(editedMessage, botMessage) {
-	if (botMessage == "what kind of music do you like listening to?") {
+  console.log("in music")
+	if (botMessage.includes("what kind of music")) {
 		return "that's cool! i haven't heard of them before, what song is your favourite?"
-	} else if (botMessage.includes("favourite")) {
+	} else if (editeddMessage.includes("favourite")) {
 		currentConvo = "no more convo"
-		return "wow! that is very interesting"
-	}
+		return "wow! that is very interesting. im not sure i have a favourite"
+	} else if (editedMessage.includes("you should listen to")) {
+    currentConvo = "no more convo"
+    return "ill check it out"
+  } else if (editedMessage.includes("what about you")) {
+    currentConvo = "no more convo"
+    return "i like all kinds of music"
+  } else {
+    currentConvo = "no more convo"
+    return "cool"
+  }
 }
 
 function about(editedMessage, botMessage) {
@@ -277,6 +288,8 @@ function question(lastUserMessage, editedMessage, botMessage, name, messagesSent
   messageHistory.push(botMessage)
 
   console.log(messageHistory)
+
+  console.log(botMessage)
 
   return botMessage;
 }

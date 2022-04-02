@@ -41,7 +41,7 @@ function newEntry() {
 
     if (typeof botMessage === 'string') {
     	messages.push("<b>" + botName + ":</b> " + botMessage);
-    } else { //promise
+    } else if (typeof botMessage === "promise") { //promise
       const getNewQuote = async () =>
       {
           var url = "https://type.fit/api/quotes";  
